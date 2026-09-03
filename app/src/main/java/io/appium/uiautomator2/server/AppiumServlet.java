@@ -140,6 +140,17 @@ public class AppiumServlet implements IHttpServlet {
         register(postHandler, new ListWindows("/session/:sessionId/appium/list_windows"));
         register(postHandler, new ListDisplays("/session/:sessionId/appium/list_displays"));
 
+        // Matrix: legacy endpoints restored from the sonic 5.7.4 fork —
+        // used by sonic-driver-core's UiaClient (tap / longPress / swipe / drag /
+        // touchAction down-move-up for remote-control drag sessions).
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.Tap("/session/:sessionId/appium/tap"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.TouchLongClick("/session/:sessionId/touch/longclick"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.Swipe("/session/:sessionId/touch/perform"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.Drag("/session/:sessionId/touch/drag"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.TouchDown("/session/:sessionId/touch/down"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.TouchMove("/session/:sessionId/touch/move"));
+        register(postHandler, new io.appium.uiautomator2.handler.legacy.TouchUp("/session/:sessionId/touch/up"));
+
         register(postHandler, new io.appium.uiautomator2.handler.gestures.Drag("/session/:sessionId/appium/gestures/drag"));
         register(postHandler, new io.appium.uiautomator2.handler.gestures.Fling("/session/:sessionId/appium/gestures/fling"));
         register(postHandler, new io.appium.uiautomator2.handler.gestures.Click("/session/:sessionId/appium/gestures/click"));

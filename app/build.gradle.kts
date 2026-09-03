@@ -36,7 +36,10 @@ val buildTime = BuildConfigField(
 
 android {
     namespace = "io.appium.uiautomator2.test"
-    compileSdk = 34
+    // Matrix: compileSdk/buildTools aligned to local SDK (android-36 / build-tools 36.0.0);
+    // targetSdk stays 34 so runtime behavior is unchanged vs upstream v10.6.2.
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
     defaultConfig {
         applicationId = "io.appium.uiautomator2"
         minSdk = 26
@@ -57,9 +60,20 @@ android {
         }
 
     }
+    signingConfigs {
+        // Matrix: committed debug keystore (standard android debug credentials) so builds
+        // never need to write ~/.android (sandboxed/CI machines can build out of the box).
+        create("matrixDebug") {
+            storeFile = rootProject.file("signing/debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
+    }
     buildTypes {
         getByName("debug") {
             isDebuggable = true
+            signingConfig = signingConfigs.getByName("matrixDebug")
             vcsInfo {
                 include = true
             }

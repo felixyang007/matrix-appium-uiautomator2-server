@@ -16,3 +16,5 @@ package-lock.json*
 .settings
 .classpath
 .tool-versions
+# Matrix local gradle home (sandboxed builds keep caches inside the workspace)
+.gradle-home/
